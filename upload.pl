@@ -2,6 +2,8 @@
 
 use CGI;
 use CGI::Carp 'fatalsToBrowser';
+
+use HTML::Template;
  
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
@@ -27,9 +29,9 @@ if (defined $lightweight_fh) {
   }
   close OUTFILE;
   &sf2ly($savepath);
-  print "Content-type: text/html\n\n";
-  print "conversion succesfully done !<br>";
   my $fileprefix = substr($filename,0,-3);
-  print "<a href='files/$fileprefix.pdf'>get pdf file</a><br>";  
-  print "<a href='files/$fileprefix.mid'>get midi file</a><br>";  
+  my $result = HTML::Template->new(filename => 'result.html.tmpl');
+  $result->param(PDFURL => "files/$fileprefix.pdf");
+  $result->param(MIDIURL => "files/$fileprefix.mid");
+  print "Content-type: text/html\n\n", $result->output;
 }

@@ -6,7 +6,7 @@ use Exporter qw(import);
 our @EXPORT_OK = qw(sf2ly);
 
 use constant FIDIR => ".";
-use constant LYTPLFINAME => ".ly.tpl";
+use constant LYTPLFINAME => ".tmpl.ly";
 
 $ENV{PATH}='C:\Program Files\Intel\iCLS Client\;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\QuickTime\QTSystem\;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\Program Files\LilyPond\usr\bin';
 

@@ -30,7 +30,7 @@ if (defined $lightweight_fh) {
   close OUTFILE;
   &sf2ly($savepath);
   my $fileprefix = substr($filename,0,-3);
-  my $result = HTML::Template->new(filename => 'result.html.tmpl');
+  my $result = HTML::Template->new(filename => 'result.tmpl.html');
   $result->param(PDFURL => "files/$fileprefix.pdf");
   $result->param(MIDIURL => "files/$fileprefix.mid");
   print "Content-type: text/html\n\n", $result->output;

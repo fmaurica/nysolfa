@@ -24,7 +24,12 @@ sub sf2ly {
   if($sflines =~ /Namorona ny feony:(.*)\n/){ $scoremeta{'composer'} = trim($1); }
   if($sflines =~ /Nandika ny feony:(.*)\n/){ $scoremeta{'arranger'} = trim($1); }
   if($sflines =~ /Tonony:(.*)\n/){ $scoremeta{'poet'} = trim($1); }
-
+  my @staffs = $sflines =~ /\n{3,}([\s\S]+)/g;
+  print length(@staffs[0])."\n";
+  print length(@staffs[1])."\n";
+  print length(@staffs[2])."\n";
+  print "@staffs[0]\n@staffs[1]\n@staffs[2]\n";
+  
   open(LYTPLFI,FIDIR."/".LYTPLFINAME);
   my $lytpllines;
   while(<LYTPLFI>){ $lytpllines .= $_; }
@@ -45,11 +50,12 @@ sub sf2ly {
   print LYFI $lytpllines;
   close(LYFI);
 
-  system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-  unlink($outprefix.".sf",$outprefix.".ly");
+#  system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
+#  unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
    return $_[0] =~ s/^\s+|\s+$//rg;
 }
 
+&sf2ly("C:\\Users\\Public\\solfa\\fihirana-ffpm_441.sf");
 1;

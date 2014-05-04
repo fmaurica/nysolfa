@@ -31,27 +31,98 @@ sub sf2ly {
   if($sflines =~ /Nandika ny feony:(.*)\n/){ $scoremeta{'arranger'} = trim($1); }
   if($sflines =~ /Tonony:(.*)\n/){ $scoremeta{'poet'} = trim($1); }
 
+  #
+  my %noteTranslator = (
+    "d" => "c",
+    "r" => "d",
+    "m" => "e",
+    "f" => "f",
+    "s" => "g",
+    "l" => "a",
+    "t" => "b",
+  );
+  
   # getting staffs
-  my %score = ('voiceOneUp','voiceOne','voiceTwo','voiceThree','voiceFour');
+  my @score = ();
   my @staffs = split /#\n/,$sflines;
   foreach my $i (1 .. $#staffs) {
 	my @voices = split /\n/,$staffs[$i];	
-    print Dumper @voices;
 
-	my $index = 0;
-	while ($index <= length(@voices[1])) {
-	  my $noteOneTmp = substr (@voices[2], $index, 2);
-	  print "$index: $noteOneTmp\n";
-	  $index = $index + STEP + 2;
+	for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
+      # for metas (key and time notably)
+	  my $isFirstMeta = 1;
+	
+      # for the very voices
+      my $index = 1;
+      my $noteTmpMem = "n";
+	  my $noteDuration = 1;
+	  while ($index <= length(@voices[$voiceIdx])) {
+        # for metas 
+        my $keyAndTime = substr (@voices[0], $index-1, 15); # 13 : Do Dia XX XX/XX
+	    if ($keyAndTime =~ /Do dia (..?) (..?\/..?)/) {
+		  my $time = $2;
+		  my $key = $1;
+		  $key = lc $key;
+		  my $keyFirstChar = substr ($key, 0, 1);
+		  my $keySecondChar = substr ($key, 1, 1);
+		  if ($keySecondChar =~ /b/) { $keySecondChar = "es";}
+		  elsif ($keySecondChar =~ /#/) { $keySecondChar = "is";}
+		  $key = $keyFirstChar.$keySecondChar;
+		  if ($isFirstMeta == 0) { print "}";}
+		  # print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
+		  @score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n"; 
+		  $isFirstMeta = 0;
+		}
+	    
+		# for the very voices
+	    my $separatorTmp = substr (@voices[$voiceIdx], $index-1, 1);
+	    my $noteTmp = substr (@voices[$voiceIdx], $index, 2);
+	    if ($separatorTmp !~ / / and $noteTmp !~ /- /){
+	      if ($noteTmpMem !~ /n/){ # for preventing writing at the first loop
+		    my $noteValue = substr ($noteTmpMem, 0, 1);
+			$noteValue = $noteTranslator{$noteValue};
+		    my $noteHeight = substr ($noteTmpMem, 1, 1);
+			my $nbHeight;
+			if ($voiceIdx == 1 or $voiceIdx == 2 or $voiceIdx == 3) { $nbHeight = 2; }
+			elsif ($voiceIdx == 4 or $voiceIdx == 5) { $nbHeight = 1; }
+			if ($noteHeight =~ /,/) { $nbHeight--; }
+			elsif ($noteHeight =~ /'/) { $nbHeight++; }
+			my $heightValue;
+			for (my $nbHeightIdx = 0 ; $nbHeightIdx < $nbHeight ; $nbHeightIdx++){
+			  $heightValue .= "'";
+			}
+			$noteDuration = 16/$noteDuration;
+			if ($noteDuration == 16/6) {
+			  $noteDuration = "4.";
+			}
+	        # print "$noteValue$heightValue$noteDuration   ";
+			@score[$voiceIdx] .= "$noteValue$heightValue$noteDuration   ";
+		  }
+		  if ($separatorTmp =~ /!/ ) {
+ 		    # print "\n";
+			@score[$voiceIdx] .= "\n";
+		  }
+		  elsif ($separatorTmp =~ /}/ ) {
+		    # print "\\ bar \"||\"\n";
+			@score[$voiceIdx] .= "\\ bar \"||\"\n";
+		  }
+		  $noteDuration = 1;	  
+	    }
+	    else {
+	      $noteDuration++;
+	    }
+	    if ($noteTmp !~ /[- ] /){
+	      $noteTmpMem = $noteTmp;
+        }	
+	    $index += STEP + 2;
+		}
 	}
-#	print "@voices[0]\n";
-#	print "@voices[1]\n";
-#	print "@voices[2]\n";
-#	print "@voices[3]\n";
-#	print "@voices[4]\n";
-#	print "@voices[5]\n";
-	print "\n";
   }
+  for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
+    # print "\\bar \"|.\"\n}"; # for closing transpose
+	@score[$voiceIdx] .= "\\bar \"|.\"\n}";
+  }  
+  print Dumper @score;
   
   open(LYTPLFI,FIDIR."/".LYTPLFINAME);
   my $lytpllines;
@@ -63,11 +134,11 @@ sub sf2ly {
   $lytpllines =~ s/\[%\s*poet\s*%\]/$scoremeta{'poet'}/g;
 
   $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/c/g;
-  $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/$score{'voiceOneUp'}/g;
-  $lytpllines =~ s/\[%\s*voiceOne\s*%\]/$score{'voiceOne'}/g;
-  $lytpllines =~ s/\[%\s*voiceTwo\s*%\]/$score{'voiceTwo'}/g;
-  $lytpllines =~ s/\[%\s*voiceThree\s*%\]/$score{'voiceThree'}/g;
-  $lytpllines =~ s/\[%\s*voiceFour\s*%\]/$score{'voiceFour'}/g;
+  $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/@score[1]/g;
+  $lytpllines =~ s/\[%\s*voiceOne\s*%\]/@score[2]/g;
+  $lytpllines =~ s/\[%\s*voiceTwo\s*%\]/@score[3]/g;
+  $lytpllines =~ s/\[%\s*voiceThree\s*%\]/@score[4]/g;
+  $lytpllines =~ s/\[%\s*voiceFour\s*%\]/@score[5]/g;
 
   open(LYFI,">$lyfipath");
   print LYFI $lytpllines;

@@ -1,0 +1,12 @@
+body {
+	width: 900px;
+	height: 50%;
+	margin: auto;
+	background-color: #FFFFFF;
+	font-family: Serif,Calibri,"Times New Roman";
+	font-size: 100%;
+}
+
+a:link {
+	color: #000000;
+}

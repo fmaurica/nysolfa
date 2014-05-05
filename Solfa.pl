@@ -40,6 +40,7 @@ sub sf2ly {
     "s" => "g",
     "l" => "a",
     "t" => "b",
+    " " => "r",
   );
   
   # getting staffs
@@ -55,7 +56,8 @@ sub sf2ly {
       # for the very voices
       my $index = 1;
       my $noteTmpMem = "n";
-	  my $noteDuration = 1;
+	  my $isNullStartingNoteTmp = 0;
+	  my $noteDuration = 0;
 	  while ($index <= length(@voices[$voiceIdx])) {
         # for metas 
         my $keyAndTime = substr (@voices[0], $index-1, 15); # 13 : Do Dia XX XX/XX
@@ -70,13 +72,19 @@ sub sf2ly {
 		  $key = $keyFirstChar.$keySecondChar;
 		  if ($isFirstMeta == 0) { print "}";}
 		  # print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
-		  @score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n"; 
+		  @score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key,\n{\n"; 
 		  $isFirstMeta = 0;
 		}
 	    
 		# for the very voices
 	    my $separatorTmp = substr (@voices[$voiceIdx], $index-1, 1);
 	    my $noteTmp = substr (@voices[$voiceIdx], $index, 2);
+		if ($separatorTmp !~ / / and $noteTmp =~ /[  ] /){
+		  $isNullStartingNoteTmp = 1;
+		}
+		elsif ($separatorTmp !~ / / and $noteTmp !~ /[  ] /){
+		  $isNullStartingNoteTmp = 0;
+		}
 	    if ($separatorTmp !~ / / and $noteTmp !~ /- /){
 	      if ($noteTmpMem !~ /n/){ # for preventing writing at the first loop
 		    my $noteValue = substr ($noteTmpMem, 0, 1);
@@ -91,6 +99,9 @@ sub sf2ly {
 			for (my $nbHeightIdx = 0 ; $nbHeightIdx < $nbHeight ; $nbHeightIdx++){
 			  $heightValue .= "'";
 			}
+			if ($noteValue =~ /r/) {
+			  $heightValue = "";
+			}
 			$noteDuration = 16/$noteDuration;
 			if ($noteDuration == 16/6) {
 			  $noteDuration = "4.";
@@ -103,8 +114,8 @@ sub sf2ly {
 			@score[$voiceIdx] .= "\n";
 		  }
 		  elsif ($separatorTmp =~ /}/ ) {
-		    # print "\\ bar \"||\"\n";
-			@score[$voiceIdx] .= "\\ bar \"||\"\n";
+		    # print "\\bar \"||\"\n";
+			@score[$voiceIdx] .= "\\bar \"||\"\n";
 		  }
 		  $noteDuration = 1;	  
 	    }
@@ -113,7 +124,10 @@ sub sf2ly {
 	    }
 	    if ($noteTmp !~ /[- ] /){
 	      $noteTmpMem = $noteTmp;
-        }	
+        }
+		elsif ($noteTmp =~ /  / and $isNullStartingNoteTmp == 1){
+		  $noteTmpMem = $noteTmp;
+		}
 	    $index += STEP + 2;
 		}
 	}
@@ -133,7 +147,6 @@ sub sf2ly {
   $lytpllines =~ s/\[%\s*arranger\s*%\]/$scoremeta{'arranger'}/g;
   $lytpllines =~ s/\[%\s*poet\s*%\]/$scoremeta{'poet'}/g;
 
-  $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/c/g;
   $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/@score[1]/g;
   $lytpllines =~ s/\[%\s*voiceOne\s*%\]/@score[2]/g;
   $lytpllines =~ s/\[%\s*voiceTwo\s*%\]/@score[3]/g;
@@ -144,7 +157,7 @@ sub sf2ly {
   print LYFI $lytpllines;
   close(LYFI);
 
-#  system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
+   system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
 #  unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {

@@ -32,6 +32,7 @@
         {
           \clef treble
           \voiceOne
+		  \tempo 4 = 74
           [% voiceOne %]
         }
         \\

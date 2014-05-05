@@ -10,7 +10,7 @@ use Cwd qw(abs_path);
 use lib dirname(dirname abs_path $0);
 use Solfa qw(sf2ly);
 
-use constant TMPDIR => "C:\\Users\\Public\\solfa";
+use constant TMPDIR => "/var/tmp/nysolfa";
 
 my $q = CGI->new;
 
@@ -22,7 +22,7 @@ if (defined $lightweight_fh) {
   my $io_handle = $lightweight_fh->handle;
 
   my $filename = $q->param('file');
-  my $savepath = TMPDIR."\\$filename";
+  my $savepath = TMPDIR."/$filename";
   open (OUTFILE,'>',$savepath);
   while ($bytesread = $io_handle->read($buffer,1024)) {
     print OUTFILE $buffer;
@@ -32,6 +32,6 @@ if (defined $lightweight_fh) {
   my $fileprefix = substr($filename,0,-3);
   my $result = HTML::Template->new(filename => 'result.tmpl.html');
   $result->param(PDFURL => "files/$fileprefix.pdf");
-  $result->param(MIDIURL => "files/$fileprefix.mid");
+  $result->param(MIDIURL => "files/$fileprefix.midi");
   print "Content-type: text/html\n\n", $result->output;
 }

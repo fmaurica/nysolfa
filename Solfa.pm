@@ -12,7 +12,7 @@ use constant LYTPLFINAME => ".tmpl.ly";
 
 use constant STEP => 2;
 
-$ENV{PATH}='C:\Program Files\Intel\iCLS Client\;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\QuickTime\QTSystem\;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;C:\Program Files\LilyPond\usr\bin';
+$ENV{PATH}='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games';
 
 sub sf2ly {
   my $sffipath = $_[0];
@@ -45,9 +45,9 @@ sub sf2ly {
   
   # getting staffs
   my @score = ();
-  my @staffs = split /#\n/,$sflines;
+  my @staffs = split /#\r?\n/,$sflines;
   foreach my $i (1 .. $#staffs) {
-	my @voices = split /\n/,$staffs[$i];	
+	my @voices = split /\r?\n/,$staffs[$i];	
 
 	for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
       # for metas (key and time notably)
@@ -136,7 +136,7 @@ sub sf2ly {
     # print "\\bar \"|.\"\n}"; # for closing transpose
 	@score[$voiceIdx] .= "\\bar \"|.\"\n}";
   }  
-  #print Dumper @score;
+#  print Dumper @score;
   
   open(LYTPLFI,FIDIR."/".LYTPLFINAME);
   my $lytpllines;
@@ -157,13 +157,13 @@ sub sf2ly {
   print LYFI $lytpllines;
   close(LYFI);
 
-   system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-   unlink($outprefix.".sf",$outprefix.".ly");
+  system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
+  unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
    return $_[0] =~ s/^\s+|\s+$//rg;
 }
 
 #print "Content-type: text/html\n\n";
-#&sf2ly("C:\\Program Files\\LightTPD\\htdocs\\solfa\\fihirana-ffpm_441.sf");
+#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
 1;

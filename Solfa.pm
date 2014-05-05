@@ -136,7 +136,7 @@ sub sf2ly {
     # print "\\bar \"|.\"\n}"; # for closing transpose
 	@score[$voiceIdx] .= "\\bar \"|.\"\n}";
   }  
-  print Dumper @score;
+  #print Dumper @score;
   
   open(LYTPLFI,FIDIR."/".LYTPLFINAME);
   my $lytpllines;

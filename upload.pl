@@ -21,6 +21,8 @@ if (defined $lightweight_fh) {
   # Upgrade the handle to one compatible with IO::Handle:
   my $io_handle = $lightweight_fh->handle;
 
+  my $generatemidi =  $q->param('generatemidi');
+  my $generatepdf =  $q->param('generatepdf');
   my $filename = $q->param('file');
   my $savepath = TMPDIR."/$filename";
   open (OUTFILE,'>',$savepath);
@@ -28,7 +30,7 @@ if (defined $lightweight_fh) {
     print OUTFILE $buffer;
   }
   close OUTFILE;
-  &sf2ly($savepath);
+  &sf2ly($savepath, $generatemidi, $generatepdf);
   my $fileprefix = substr($filename,0,-3);
   my $result = HTML::Template->new(filename => 'result.tmpl.html');
   $result->param(PDFURL => "files/$fileprefix.pdf");

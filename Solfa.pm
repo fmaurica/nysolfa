@@ -19,6 +19,9 @@ sub sf2ly {
   my $outprefix = substr($sffipath,0,-3); #rm .sf suffix
   my $lyfipath = "$outprefix.ly";
 
+  my $generatemidi = $_[1];
+  my $generatepdf = $_[2];
+
   my %scoremeta = ('piece','composer','arranger','poet');
   open(SFFI,$sffipath);
   my $sflines;
@@ -142,6 +145,18 @@ sub sf2ly {
   my $lytpllines;
   while(<LYTPLFI>){ $lytpllines .= $_; }
   close(LYTPLFI);
+
+  my $midireplacement;
+  my $pdfreplacement;
+  if ($generatemidi == 1){
+    $midireplacement = "\\midi{}";
+  }
+  if ($generatepdf == 1){
+    $pdfreplacement = "\\layout";
+  }
+  $lytpllines =~ s/\[%\s*midi\s*%\]/$midireplacement/g;
+  $lytpllines =~ s/\[%\s*pdf\s*%\]/$pdfreplacement/g;
+
   $lytpllines =~ s/\[%\s*piece\s*%\]/$scoremeta{'piece'}/g;
   $lytpllines =~ s/\[%\s*composer\s*%\]/$scoremeta{'composer'}/g;
   $lytpllines =~ s/\[%\s*arranger\s*%\]/$scoremeta{'arranger'}/g;
@@ -158,7 +173,7 @@ sub sf2ly {
   close(LYFI);
 
   system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-  unlink($outprefix.".sf",$outprefix.".ly");
+#  unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
    return $_[0] =~ s/^\s+|\s+$//rg;

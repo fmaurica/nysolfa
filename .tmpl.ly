@@ -64,8 +64,8 @@
       arranger = "[% arranger %]"
       poet = "[% poet %]"
     }
-    \midi { }    
-    \layout
+    [% midi %]
+    [% pdf %]
     {
       \context
       {

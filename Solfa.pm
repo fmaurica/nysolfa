@@ -49,12 +49,14 @@ sub sf2ly {
   # getting staffs
   my @score = ();
   my @staffs = split /#\r?\n/,$sflines;
+
+  # for metas (key and time notably)
+  my @isFirstMeta = (1,1,1,1,1,1);
+
   foreach my $i (1 .. $#staffs) {
 	my @voices = split /\r?\n/,$staffs[$i];	
 
 	for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
-      # for metas (key and time notably)
-	  my $isFirstMeta = 1;
 	
       # for the very voices
       my $index = 1;
@@ -73,10 +75,13 @@ sub sf2ly {
 		  if ($keySecondChar =~ /b/) { $keySecondChar = "es";}
 		  elsif ($keySecondChar =~ /#/) { $keySecondChar = "is";}
 		  $key = $keyFirstChar.$keySecondChar;
-		  if ($isFirstMeta == 0) { print "}";}
+		  if (@isFirstMeta[$voiceIdx] == 0) {
+                    # print "}";
+                    @score[$voiceIdx] .= "\n}\n";
+                  }
 		  # print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
 		  @score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key,\n{\n"; 
-		  $isFirstMeta = 0;
+		  @isFirstMeta[$voiceIdx] = 0;
 		}
 	    
 		# for the very voices

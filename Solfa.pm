@@ -8,7 +8,7 @@ our @EXPORT_OK = qw(sf2ly);
 use Data::Dumper qw(Dumper);
 
 use constant FIDIR => ".";
-use constant LYTPLFINAME => ".tmpl.ly";
+use constant LYTPLFINAME => "tmpl.ly";
 
 use constant STEP => 2;
 

@@ -57,6 +57,7 @@
         }           
       >>
     >>
+    
     \header 
     {  
       piece = "[% piece %]"
@@ -66,13 +67,5 @@
     }
     [% midi %]
     [% pdf %]
-    {
-      \context
-      {
-        \Score
-        \override SpacingSpanner
-        #'base-shortest-duration = #(ly:make-moment 1 10)
-      }
-    }
   }
 }

@@ -152,7 +152,17 @@ sub sf2ly {
     $midireplacement = "\\midi{}";
   }
   if ($generatepdf == 1){
-    $pdfreplacement = "\\layout";
+    $pdfreplacement = << 'END';
+    \layout
+    {
+      \context
+      {
+        \Score
+        \override SpacingSpanner
+        #'base-shortest-duration = #(ly:make-moment 1 10)
+      }
+    }
+END
   }
   $lytpllines =~ s/\[%\s*midi\s*%\]/$midireplacement/g;
   $lytpllines =~ s/\[%\s*pdf\s*%\]/$pdfreplacement/g;
@@ -173,7 +183,7 @@ sub sf2ly {
   close(LYFI);
 
   system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-#  unlink($outprefix.".sf",$outprefix.".ly");
+  unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
    return $_[0] =~ s/^\s+|\s+$//rg;

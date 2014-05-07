@@ -109,6 +109,9 @@ sub sf2ly {
 			if ($noteDuration == 16/6) {
 			  $noteDuration = "4.";
 			}
+                        elsif ($noteDuration == 16/12) {
+                          $noteDuration = "2.";
+                        }
 	        # print "$noteValue$heightValue$noteDuration   ";
 			@score[$voiceIdx] .= "$noteValue$heightValue$noteDuration   ";
 		  }

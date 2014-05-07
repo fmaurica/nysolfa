@@ -52,12 +52,18 @@ sub sf2ly {
 
   # for metas (key and time notably)
   my @isFirstMeta = (1,1,1,1,1,1);
+  my @isEmptyVoice = (0,0,0,0,0,0);
 
   foreach my $i (1 .. $#staffs) {
 	my @voices = split /\r?\n/,$staffs[$i];	
 
 	for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
-	
+
+      if ($i == 1 and substr (@voices[$voiceIdx], 0, 1) =~ /]/){
+        @isEmptyVoice[$voiceIdx] = 1;
+      }	
+      next if (@isEmptyVoice[$voiceIdx] == 1);
+
       # for the very voices
       my $index = 1;
       my $noteTmpMem = "n";
@@ -145,7 +151,9 @@ sub sf2ly {
   }
   for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
     # print "\\bar \"|.\"\n}"; # for closing transpose
+      if(@isEmptyVoice[$voiceIdx] == 0){
 	@score[$voiceIdx] .= "\\bar \"|.\"\n}";
+      }
   }  
 #  print Dumper @score;
   

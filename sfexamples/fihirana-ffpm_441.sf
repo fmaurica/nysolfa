@@ -6,7 +6,7 @@ Tonony: Frances R. Havergal, Nad. A.E. Brockway
 
 #
 Do dia Ab 4/4
-!                                                               !                                                               }
+]
 !d              :d              |d              :-      .t,     !l,             :t,             |d              :-              }
 !s,             :s,             |f,             :-      .f,     !f,             :f,             |m,             :-              }
 !m              :m              |r              :-      .r      !d              :r              |m              :-              }
@@ -15,7 +15,7 @@ Do dia Ab 4/4
 
 #
 
-!                                                               !                                                               }
+
 !r              :r              |m              :s,             !l,             :r              |t,             :-              }
 !s,             :s,             |s,             :s,             !s,             :f,             |r,             :-              }
 !r              :f              |m              :d              !d              :l,             |r              :-              }
@@ -24,7 +24,7 @@ Do dia Ab 4/4
 
 #
 
-!                                                               !                                                               }
+
 !r              :f              |m              :-      .d      !t,             :r              |d              :-              }
 !s,             :s,             |s,             :-      .s,     !f,             :f,             |m,             :-              }
 !r              :r              |m              :-      .m      !r              :t,             |d              :-              }
@@ -33,7 +33,7 @@ Do dia Ab 4/4
 
 #
 
-!                                                               !                                                               ]
+
 !d              :r              |d              :d              !d              :-      .t,     |d              :-              ]
 !l,             :l,             |s,             :s,             !s,             :-      .s,     |s,             :-              ]
 !f              :f              |m              :r      .d      !r              :-      .r      |m              :-              ]

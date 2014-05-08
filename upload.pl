@@ -22,6 +22,7 @@ if (defined $lightweight_fh) {
   my $io_handle = $lightweight_fh->handle;
 
   my $generatemidi =  $q->param('generatemidi');
+  my $midiinstrument =  $q->param('midiinstrument');
   my $generatepdf =  $q->param('generatepdf');
   my $filename = $q->param('file');
   my $savepath = TMPDIR."/$filename";
@@ -30,7 +31,7 @@ if (defined $lightweight_fh) {
     print OUTFILE $buffer;
   }
   close OUTFILE;
-  &sf2ly($savepath, $generatemidi, $generatepdf);
+  &sf2ly($savepath, $generatemidi, $midiinstrument,$generatepdf);
   my $fileprefix = substr($filename,0,-3);
   my $result = HTML::Template->new(filename => 'result.tmpl.html');
   $result->param(PDFURL => "files/$fileprefix.pdf");

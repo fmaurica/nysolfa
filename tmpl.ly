@@ -17,7 +17,7 @@
   }
   \header { tagline = ##f }\score
   {
-    \new PianoStaff
+    \new PianoStaff \with {midiInstrument = #"[% midiinstrument %]"}
     <<
       \new Staff
       <<

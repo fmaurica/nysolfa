@@ -10,3 +10,7 @@ body {
 a:link {
 	color: #000000;
 }
+
+td {
+	vertical-align: top;
+}

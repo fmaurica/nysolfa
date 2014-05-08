@@ -20,7 +20,8 @@ sub sf2ly {
   my $lyfipath = "$outprefix.ly";
 
   my $generatemidi = $_[1];
-  my $generatepdf = $_[2];
+  my $midiinstrument = $_[2];
+  my $generatepdf = $_[3];
 
   my %scoremeta = ('piece','composer','arranger','poet');
   open(SFFI,$sffipath);
@@ -181,6 +182,7 @@ sub sf2ly {
 END
   }
   $lytpllines =~ s/\[%\s*midi\s*%\]/$midireplacement/g;
+  $lytpllines =~ s/\[%\s*midiinstrument\s*%\]/$midiinstrument/g;
   $lytpllines =~ s/\[%\s*pdf\s*%\]/$pdfreplacement/g;
 
   $lytpllines =~ s/\[%\s*piece\s*%\]/$scoremeta{'piece'}/g;
@@ -199,7 +201,7 @@ END
   close(LYFI);
 
   system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-  unlink($outprefix.".sf",$outprefix.".ly");
+  #unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
    return $_[0] =~ s/^\s+|\s+$//rg;

@@ -38,11 +38,16 @@ sub sf2ly {
   #
   my %noteTranslator = (
     "d" => "c",
+    "e" => "cis",
     "r" => "d",
+    "u" => "dis",
     "m" => "e",
     "f" => "f",
+    "g" => "fis",
     "s" => "g",
+    "v" => "gis",
     "l" => "a",
+    "n" => "ais",
     "t" => "b",
     " " => "r",
   );
@@ -60,7 +65,7 @@ sub sf2ly {
 
 	for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
 
-      if ($i == 1 and substr (@voices[$voiceIdx], 0, 1) =~ /]/){
+      if ($i == 1 and substr (@voices[$voiceIdx], 0, 1) =~ /].*/){
         @isEmptyVoice[$voiceIdx] = 1;
       }	
       next if (@isEmptyVoice[$voiceIdx] == 1);

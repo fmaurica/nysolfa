@@ -77,6 +77,7 @@ sub sf2ly {
 			my $noteDuration = 0;
 			while ($index <= length(@voices[$voiceIdx])) {
 # for metas 
+# for keyAndTime
 				my $keyAndTime = substr (@voices[0], $index-1, 15); # 13 : Do Dia XX XX/XX
 					if ($keyAndTime =~ /Do dia (..?) (..?\/..?)/) {
 						my $time = $2;
@@ -95,6 +96,13 @@ sub sf2ly {
 						@score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key,\n{\n"; 
 						@isFirstMeta[$voiceIdx] = 0;
 					}
+
+# for partial measures
+				my $partialMeasureLength = substr (@voices[4], $index-1, 1);
+				if ($partialMeasureLength =~ /\d/) {
+					@score[$voiceIdx] .= "\n\\partial $partialMeasureLength\n";
+				}
+
 
 # for the very voices
 				my $separatorTmp = substr (@voices[$voiceIdx], $index-1, 1);
@@ -213,5 +221,5 @@ sub trim {
 }
 
 #print "Content-type: text/html\n\n";
-#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
+#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_440-2.sf");
 1;

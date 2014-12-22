@@ -10,6 +10,7 @@
             \center-align \fontsize #4 \bold \fromproperty #'header:piece
             \fromproperty #'header:composer
             \fromproperty #'header:arranger
+            \right-align \fromproperty #'header:poet
           }
         }
       }

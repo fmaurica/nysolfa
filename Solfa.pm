@@ -57,13 +57,13 @@ sub sf2ly {
 	my @staffs = split /#\r?\n/,$sflines;
 
 # for metas (key and time notably)
-	my @isFirstMeta = (1,1,1,1,1,1);
-	my @isEmptyVoice = (0,0,0,0,0,0);
+	my @isFirstMeta = (1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+	my @isEmptyVoice = (0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
 	foreach my $i (1 .. $#staffs) {
 		my @voices = split /\r?\n/,$staffs[$i];	
 
-		for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
+		for (my $voiceIdx = 9; $voiceIdx <= 13 ; $voiceIdx++){
 
 			if ($i == 1 and substr (@voices[$voiceIdx], 0, 1) =~ /].*/){
 				@isEmptyVoice[$voiceIdx] = 1;
@@ -195,11 +195,11 @@ $lytpllines =~ s/\[%\s*composer\s*%\]/$scoremeta{'composer'}/g;
 $lytpllines =~ s/\[%\s*arranger\s*%\]/$scoremeta{'arranger'}/g;
 $lytpllines =~ s/\[%\s*poet\s*%\]/$scoremeta{'poet'}/g;
 
-$lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/@score[1]/g;
-$lytpllines =~ s/\[%\s*voiceOne\s*%\]/@score[2]/g;
-$lytpllines =~ s/\[%\s*voiceTwo\s*%\]/@score[3]/g;
-$lytpllines =~ s/\[%\s*voiceThree\s*%\]/@score[4]/g;
-$lytpllines =~ s/\[%\s*voiceFour\s*%\]/@score[5]/g;
+$lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/@score[9]/g;
+$lytpllines =~ s/\[%\s*voiceOne\s*%\]/@score[10]/g;
+$lytpllines =~ s/\[%\s*voiceTwo\s*%\]/@score[11]/g;
+$lytpllines =~ s/\[%\s*voiceThree\s*%\]/@score[12]/g;
+$lytpllines =~ s/\[%\s*voiceFour\s*%\]/@score[13]/g;
 
 open(LYFI,">$lyfipath");
 print LYFI $lytpllines;

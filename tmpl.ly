@@ -5,14 +5,21 @@
     scoreTitleMarkup = \markup {
       \fill-line {
         \null
-        \fill-line {
-          \dir-column {
-            \center-align \fontsize #4 \bold \fromproperty #'header:piece
-            \fromproperty #'header:composer
-            \fromproperty #'header:arranger
-            \right-align \fromproperty #'header:poet
+        \dir-column {
+          \fill-line {
+            \center-align \fontsize #3 \bold \fromproperty #'header:piece
           }
-        }
+	  \fill-line {
+	    \concat {
+              \hspace #8
+              \fromproperty #'header:poet
+            }
+            \dir-column {
+              \fromproperty #'header:composer
+              \fromproperty #'header:arranger
+            }
+	  }
+	}
       }
     }
   }

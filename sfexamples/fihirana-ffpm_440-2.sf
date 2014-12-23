@@ -14,11 +14,11 @@ E 3/4
 
 
 
-:s,             !s              :-      .l      :t              !d'             :-              :d'             !d'     .m      :s              :f              !
-:s,             !m              :-              :f      .r      !s              :-              :f      .r      !d              :-              :t,             !
-:s,             !d              :-              :r      .t,     !m              :d              :l,             !s,             :-              :s,             !
-:m              !s              :-              :f              !m              :-              :f              !m              :-              :r              !
-:d              !d              :-              :d              !d              :-              :f,             !s,             :-              :s,             !
+:s,             }s              :-      .l      :t              !d'             :-              :d'             !d'     .m      :s              :f              !
+:s,             }m              :-              :f      .r      !s              :-              :f      .r      !d              :-              :t,             !
+:s,             }d              :-              :r      .t,     !m              :d              :l,             !s,             :-              :s,             !
+:m              }s              :-              :f              !m              :-              :f              !m              :-              :r              !
+:d              }d              :-              :d              !d              :-              :f,             !s,             :-              :s,             !
 
 
 #
@@ -26,16 +26,16 @@ E 3/4
 
 
 
+2                               4                                                                                                               2                               4
 
 
 
 
-
-!m              :-              :s              !l              :-      .s      :g      .s      !l              :-      .t      :d'             !t              :-              :s              !
-!d              :-              :m              !m              :r              :r              !g              :-              :g              !s              :-              :m              !
-!s,             :-              :d              !d              :-              :d              !l,             :r              :d              !t,             :-              :d              !
-!m              :-              :s              !g              :-              :g              !l              :-              :l              !s              :-              :s              !
-!d              :-              :d      .t,     !l,             :-              :l,             !r              :-              :r              !s,             :-              :d              !
+!m              :-              }s              !l              :-      .s      :g      .s      !l              :-      .t      :d'             !t              :-              }s              !
+!d              :-              }m              !m              :r              :r              !g              :-              :g              !s              :-              }m              !
+!s,             :-              }d              !d              :-              :d              !l,             :r              :d              !t,             :-              }d              !
+!m              :-              }s              !g              :-              :g              !l              :-              :l              !s              :-              }s              !
+!d              :-              }d      .t,     !l,             :-              :l,             !r              :-              :r              !s,             :-              }d              !
 
 
 #
@@ -43,16 +43,16 @@ E 3/4
 
 
 
+                                                                                                                                                2                               4
 
 
 
 
-
-!s              :-      .r      :m      .f      !s              :-              :s      .l      !t              :-      .d'     :r'             !s              :-              :s              !
-!m              :f              :m              !r              :-              :m              !f              :s              :f              !m              :-              :m              !
-!d              :r              :d              !t,             :-              :d              !r              :m              :r              !d              :-              :d              !
-!s              :r              :m      .f      !s              :-              :s              !s              :-              :s              !s              :-              :s              !
-!s,             :-              :s,             !s,             :f              :m              !r              :s,             :l,     .t,     !d              :-              :d              !
+!s              :-      .r      :m      .f      !s              :-              :s      .l      !t              :-      .d'     :r'             !s              :-              }s              !
+!m              :f              :m              !r              :-              :m              !f              :s              :f              !m              :-              }m              !
+!d              :r              :d              !t,             :-              :d              !r              :m              :r              !d              :-              }d              !
+!s              :r              :m      .f      !s              :-              :s              !s              :-              :s              !s              :-              }s              !
+!s,             :-              :s,             !s,             :f              :m              !r              :s,             :l,     .t,     !d              :-              }d              !
 
 
 #

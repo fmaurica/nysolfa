@@ -199,6 +199,60 @@ if ($generatepdf == 1){
 	}
 END
 }
+
+my $staff1tmpl = '';
+my $staff2tmpl = '';
+my $staff3tmpl = '';
+
+if (@isEmptyVoice[9] == 0) {
+$staff1tmpl = << 'END';
+      \new Staff
+      <<
+        {
+          \clef treble
+          \voiceOne
+          [% voiceOneUp %]
+        }
+      >>
+END
+}
+if (@isEmptyVoice[10] == 0 or @isEmptyVoice[11] == 0) {
+$staff2tmpl = << 'END';
+      \new Staff
+      <<
+        {
+          \clef treble
+          \voiceOne
+          [% voiceOne %]
+        }
+        \\
+        {
+          \clef treble
+          \voiceTwo
+          [% voiceTwo %]
+        }
+      >>
+END
+}
+if (@isEmptyVoice[12] == 0 or @isEmptyVoice[13] == 0) {
+$staff3tmpl = << 'END';
+      \new Staff
+      <<
+        {
+          \clef bass
+          \voiceThree
+          [% voiceThree %]
+        }
+        \\
+        {
+          \clef bass
+          \voiceFour
+          [% voiceFour %]
+        }
+      >>
+END
+}
+
 $lytpllines =~ s/\[%\s*midi\s*%\]/$midireplacement/g;
 $lytpllines =~ s/\[%\s*midiinstrument\s*%\]/$midiinstrument/g;
 $lytpllines =~ s/\[%\s*pdf\s*%\]/$pdfreplacement/g;
@@ -207,6 +261,10 @@ $lytpllines =~ s/\[%\s*piece\s*%\]/$scoremeta{'piece'}/g;
 $lytpllines =~ s/\[%\s*composer\s*%\]/$scoremeta{'composer'}/g;
 $lytpllines =~ s/\[%\s*arranger\s*%\]/$scoremeta{'arranger'}/g;
 $lytpllines =~ s/\[%\s*poet\s*%\]/$scoremeta{'poet'}/g;
+
+$lytpllines =~ s/\[%\s*staff1\s*%\]/$staff1tmpl/g;
+$lytpllines =~ s/\[%\s*staff2\s*%\]/$staff2tmpl/g;
+$lytpllines =~ s/\[%\s*staff3\s*%\]/$staff3tmpl/g;
 
 $lytpllines =~ s/\[%\s*voiceOneUp\s*%\]/@score[9]/g;
 $lytpllines =~ s/\[%\s*voiceOne\s*%\]/@score[10]/g;

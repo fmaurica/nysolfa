@@ -27,42 +27,9 @@
   {
     \new PianoStaff \with {midiInstrument = #"[% midiinstrument %]"}
     <<
-      \new Staff
-      <<
-        {
-          \clef treble
-          \voiceOne
-          [% voiceOneUp %]
-        }
-      >>
-      \new Staff
-      <<
-        {
-          \clef treble
-          \voiceOne
-          [% voiceOne %]
-        }
-        \\
-        {
-          \clef treble
-          \voiceTwo
-          [% voiceTwo %] 
-        }            
-      >>
-      \new Staff
-      <<
-        {
-          \clef bass
-          \voiceThree
-          [% voiceThree %]
-        }
-        \\
-        {
-          \clef bass
-          \voiceFour
-          [% voiceFour %]
-        }           
-      >>
+[% staff1 %]
+[% staff2 %]
+[% staff3 %]
     >>
     
     \header 

@@ -272,13 +272,13 @@ print LYFI $lytpllines;
 close(LYFI);
 
 system("lilypond --loglevel=ERROR --output=$outprefix $lyfipath");
-#unlink($outprefix.".sf",$outprefix.".ly");
+unlink($outprefix.".sf",$outprefix.".ly");
 }
 sub trim {
 	return $_[0] =~ s/^\s+|\s+$//rg;
 }
 
 #print "Content-type: text/html\n\n";
-&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
+#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
 #&sf2ly("/var/tmp/nysolfa/ndriana-ramamonjy_mifankatiava.sf");
 1;

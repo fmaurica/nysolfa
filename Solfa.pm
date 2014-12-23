@@ -70,7 +70,6 @@ sub sf2ly {
 			}	
 			next if (@isEmptyVoice[$voiceIdx] == 1);
 
-# for the very voices
 			my $index = 1;
 			my $noteTmpMem = "n";
 			my $isNullStartingNoteTmp = 0;
@@ -92,8 +91,8 @@ sub sf2ly {
 						$noteValue = $noteTranslator{$noteValue};
 						my $noteHeight = substr ($noteTmpMem, 1, 1);
 						my $nbHeight;
-						if ($voiceIdx == 1 or $voiceIdx == 2 or $voiceIdx == 3) { $nbHeight = 2; }
-						elsif ($voiceIdx == 4 or $voiceIdx == 5) { $nbHeight = 1; }
+						if ($voiceIdx == 9 or $voiceIdx == 10 or $voiceIdx == 11) { $nbHeight = 2; }
+						elsif ($voiceIdx == 12 or $voiceIdx == 13) { $nbHeight = 1; }
 						if ($noteHeight =~ /,/) { $nbHeight--; }
 						elsif ($noteHeight =~ /'/) { $nbHeight++; }
 						my $heightValue;
@@ -140,11 +139,7 @@ sub sf2ly {
 							@score[$voiceIdx] .= "\n}\n";
 						}
 # print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
-						my $transposeheight = "'";
-						if ($voiceIdx == 12 or $voiceIdx == 13) {
-							 $transposeheight = ",";
-						}
-						@score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key$transposeheight\n{\n"; 
+						@score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key,\n{\n"; 
 						@isFirstMeta[$voiceIdx] = 0;
 					}
 
@@ -284,5 +279,6 @@ sub trim {
 }
 
 #print "Content-type: text/html\n\n";
-&sf2ly("/var/tmp/nysolfa/ndriana-ramamonjy_mifankatiava.sf");
+&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
+#&sf2ly("/var/tmp/nysolfa/ndriana-ramamonjy_mifankatiava.sf");
 1;

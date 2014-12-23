@@ -76,33 +76,6 @@ sub sf2ly {
 			my $isNullStartingNoteTmp = 0;
 			my $noteDuration = 0;
 			while ($index <= length(@voices[$voiceIdx])) {
-# for metas 
-# for keyAndTime
-				my $keyAndTime = substr (@voices[0], $index-1, 15); # 13 : Do Dia XX XX/XX
-					if ($keyAndTime =~ /Do dia (..?) (..?\/..?)/) {
-						my $time = $2;
-						my $key = $1;
-						$key = lc $key;
-						my $keyFirstChar = substr ($key, 0, 1);
-						my $keySecondChar = substr ($key, 1, 1);
-						if ($keySecondChar =~ /b/) { $keySecondChar = "es";}
-						elsif ($keySecondChar =~ /#/) { $keySecondChar = "is";}
-						$key = $keyFirstChar.$keySecondChar;
-						if (@isFirstMeta[$voiceIdx] == 0) {
-# print "}";
-							@score[$voiceIdx] .= "\n}\n";
-						}
-# print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
-						@score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key,\n{\n"; 
-						@isFirstMeta[$voiceIdx] = 0;
-					}
-
-# for partial measures
-				my $partialMeasureLength = substr (@voices[4], $index-1, 1);
-				if ($partialMeasureLength =~ /\d/) {
-					@score[$voiceIdx] .= "\n\\partial $partialMeasureLength\n";
-				}
-
 
 # for the very voices
 				my $separatorTmp = substr (@voices[$voiceIdx], $index-1, 1);
@@ -149,6 +122,38 @@ sub sf2ly {
 						@score[$voiceIdx] .= "\\bar \"||\"\n";
 					}
 				$noteDuration = 1;	  
+
+# for metas 
+# for keyAndTime
+				my $keyAndTime = substr (@voices[0], $index-1, 8); # XX XX/XX
+					if ($keyAndTime =~ /(..?) (..?\/..?)/) {
+						my $time = $2;
+						my $key = $1;
+						$key = lc $key;
+						my $keyFirstChar = substr ($key, 0, 1);
+						my $keySecondChar = substr ($key, 1, 1);
+						if ($keySecondChar =~ /b/) { $keySecondChar = "es";}
+						elsif ($keySecondChar =~ /#/) { $keySecondChar = "is";}
+						$key = $keyFirstChar.$keySecondChar;
+						if (@isFirstMeta[$voiceIdx] == 0) {
+# print "}";
+							@score[$voiceIdx] .= "\n}\n";
+						}
+# print "\\time $time \n\\key $key \\major\n\\transpose c $key\n{\n";
+						my $transposeheight = "'";
+						if ($voiceIdx == 12 or $voiceIdx == 13) {
+							 $transposeheight = ",";
+						}
+						@score[$voiceIdx] .= "\\time $time \n\\key $key \\major\n\\transpose c $key$transposeheight\n{\n"; 
+						@isFirstMeta[$voiceIdx] = 0;
+					}
+
+# for partial measures
+				my $partialMeasureLength = substr (@voices[4], $index-1, 1);
+				if ($partialMeasureLength =~ /\d/) {
+					@score[$voiceIdx] .= "\n\\partial $partialMeasureLength\n";
+				}
+
 			}
 			else {
 				$noteDuration++;
@@ -163,7 +168,7 @@ sub sf2ly {
 		}
 	}
 }
-for (my $voiceIdx = 1; $voiceIdx <= 5 ; $voiceIdx++){
+for (my $voiceIdx = 9; $voiceIdx <= 13 ; $voiceIdx++){
 # print "\\bar \"|.\"\n}"; # for closing transpose
 	if(@isEmptyVoice[$voiceIdx] == 0){
 		@score[$voiceIdx] .= "\\bar \"|.\"\n}";
@@ -221,5 +226,5 @@ sub trim {
 }
 
 #print "Content-type: text/html\n\n";
-#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_440-2.sf");
+&sf2ly("/var/tmp/nysolfa/ndriana-ramamonjy_mifankatiava.sf");
 1;

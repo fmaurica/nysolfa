@@ -279,6 +279,6 @@ sub trim {
 }
 
 #print "Content-type: text/html\n\n";
-#&sf2ly("/var/tmp/nysolfa/fihirana-ffpm_441.sf");
 #&sf2ly("/var/tmp/nysolfa/ndriana-ramamonjy_mifankatiava.sf");
+&sf2ly($ARGV[0], $ARGV[1]);
 1;
